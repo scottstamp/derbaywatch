@@ -163,10 +163,10 @@ const loadData = async () => {
 
         let derbyUrl = '';
         if (hash) {
-            derbyUrl = `https://habbo-asset-proxy.scott-000.workers.dev/api/public/minigame/derby/v1/${hash}`;
+            derbyUrl = `https://habbo-asset-proxy.xksc.org/api/public/minigame/derby/v1/${hash}`;
             if (inputEl) inputEl.value = hash;
         } else {
-            derbyUrl = 'https://habbo-asset-proxy.scott-000.workers.dev/api/public/minigame/derby/v1/status';
+            derbyUrl = 'https://habbo-asset-proxy.xksc.org/api/public/minigame/derby/v1/status';
             if (inputEl) inputEl.value = '';
         }
 
