@@ -143,7 +143,8 @@ const fetchWithFallback = async (urls) => {
         try {
             const response = await fetch(url, {
                 headers: {
-                    "hotel": "origins"
+                    "hotel": "origins",
+                    "cache": 30
                 }
             });
             if (response.ok) return response;
