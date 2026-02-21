@@ -1,0 +1,36 @@
+{
+    "status": "ACTIVE",
+    "derby": {
+        "metadata": {
+            "derbyId": "fd-hhous-2e7e37df73b476ea2db5345894d0c7e3",
+            "participantAccountIds": [
+                "hhous-456644243a3daa9613c6102708cbfd30",
+                "hhous-a5ea7675e995478dc2865c04c9643c7b"
+            ]
+        },
+        "info": {
+            "status": "ACTIVE",
+            "creationTime": 1769790600000,
+            "registrationStartTime": 1769790600000,
+            "registrationEndTime": 1769791200000,
+            "startTime": 1769791200000,
+            "endTime": 1769792100000,
+            "participants": [
+                {
+                    "accountId": "hhous-456644243a3daa9613c6102708cbfd30",
+                    "fishCaught": 46,
+                    "goldenFishCaught": 1,
+                    "privateFishCaught": 0,
+                    "lastUpdated": 1769792026000
+                },
+                {
+                    "accountId": "hhous-a5ea7675e995478dc2865c04c9643c7b",
+                    "fishCaught": 28,
+                    "goldenFishCaught": 3,
+                    "privateFishCaught": 0,
+                    "lastUpdated": 1769792002000
+                }
+            ]
+        }
+    }
+}
