@@ -173,10 +173,10 @@ const loadData = async () => {
 
         let derbyUrl = '';
         if (hash) {
-            derbyUrl = `https://habbo-asset-proxy.xksc.org/api/public/minigame/derby/v1/${hash}`;
+            derbyUrl = `https://habbo-api-proxy.scott-000.workers.dev/api/public/minigame/derby/v1/${hash}`;
             if (inputEl) inputEl.value = hash;
         } else {
-            derbyUrl = 'https://habbo-asset-proxy.xksc.org/api/public/minigame/derby/v1/status';
+            derbyUrl = 'https://habbo-api-proxy.scott-000.workers.dev/api/public/minigame/derby/v1/status';
             if (inputEl) inputEl.value = '';
         }
 
@@ -208,12 +208,63 @@ const loadData = async () => {
         // Normalize depending on whether it's from /status or /:id
         const derbyData = rawDerbyData.derby ? rawDerbyData.derby : rawDerbyData;
 
+        const isInactiveStatus = !hash && derbyData.metadata?.derbyId === "fd-hhous-2e7e37df73b476ea2db5345894d0c7e3";
+
         // If no hash was initially passed, set it using the returned id
-        if (!hash && derbyData.metadata?.derbyId) {
+        if (!hash && derbyData.metadata?.derbyId && !isInactiveStatus) {
             const loadedId = derbyData.metadata.derbyId;
             if (inputEl) inputEl.value = loadedId;
             // Update hash without triggering a reload loop
             history.replaceState(null, null, `#${loadedId}`);
+        }
+
+        if (refreshTimer) clearTimeout(refreshTimer);
+        if (countdownTimer) clearInterval(countdownTimer);
+
+        const tabsEl = document.querySelector('.tabs');
+
+        if (isInactiveStatus) {
+            const container = document.getElementById('derby-meta');
+            if (container) {
+                container.innerHTML = `
+                    <div class="derby-meta-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; max-width: 450px;">
+                        <svg style="width: 48px; height: 48px; color: var(--gold); margin-bottom: 0.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <div style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">There is no derby currently active</div>
+                        <div style="color: var(--text-muted); font-size: 0.95rem;">Next refresh in <span id="refresh-countdown" style="font-family: monospace; color: var(--accent-primary); font-weight: bold;">60s</span></div>
+                    </div>
+                `;
+            }
+            document.getElementById('loading').style.display = 'none';
+            if (tabsEl) tabsEl.style.display = 'none';
+            const pubList = document.getElementById('public-list');
+            const privList = document.getElementById('private-list');
+            if (pubList) pubList.classList.remove('active');
+            if (privList) privList.classList.remove('active');
+
+            secondsUntilRefresh = 60;
+            countdownTimer = setInterval(() => {
+                secondsUntilRefresh--;
+                const countdownEl = document.getElementById('refresh-countdown');
+                if (countdownEl) {
+                    countdownEl.innerText = `${secondsUntilRefresh}s`;
+                }
+            }, 1000);
+
+            refreshTimer = setTimeout(() => {
+                clearInterval(countdownTimer);
+                loadData();
+            }, 60000);
+
+            return;
+        }
+
+        if (tabsEl) tabsEl.style.display = 'flex';
+        const pubList = document.getElementById('public-list');
+        const privList = document.getElementById('private-list');
+        if (pubList && privList && !pubList.classList.contains('active') && !privList.classList.contains('active')) {
+            pubList.classList.add('active');
+            const tabsNodes = document.querySelectorAll('.tab');
+            if (tabsNodes.length > 0) tabsNodes[0].classList.add('active');
         }
 
         const participants = derbyData.info?.participants || [];
