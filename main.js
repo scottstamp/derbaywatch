@@ -103,8 +103,18 @@ const createListItem = (participant, rank, scoreLabel) => {
                 ${!hasUsername ? `<div class="account-id">${participant.accountId}</div>` : ''}
             </div>
             <div class="score-wrap">
-                <div class="score">${participant[scoreLabel]}</div>
-                <div class="score-label">pts</div>
+                ${participant.goldenFish > 0 ? `
+                <div class="gold-fish-badge" title="${participant.goldenFish} Golden Fish">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C7.96 2 4.41 4.5 3 8.35v1.28c-1.63 0-2.3 1.83-1.07 2.87L3 13.3c.53 3.65 3.73 6.37 7.54 6.64l.87 2H13l-.53-2h.06C18.15 19.8 22 15.68 22 10.5 22 5.8 17.52 2 12 2zm0 16c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4-8.5c-.83 0-1.5-.67-1.5-1.5S15.17 6.5 16 6.5 17.5 7.17 17.5 8 16.83 9.5 16 9.5z" />
+                    </svg>
+                    ${participant.goldenFish}
+                </div>
+                ` : ''}
+                <div class="score-box">
+                    <div class="score">${participant[scoreLabel]}</div>
+                    <div class="score-label">pts</div>
+                </div>
             </div>
         </div>
     `;
@@ -235,7 +245,8 @@ const loadData = async () => {
                 accountId: p.accountId,
                 username: userMap[p.accountId],
                 publicTotal: Math.max(0, p.fishCaught - p.privateFishCaught) + goldenBonus,
-                privateTotal: p.privateFishCaught + goldenBonus
+                privateTotal: p.privateFishCaught + goldenBonus,
+                goldenFish: p.goldenFishCaught || 0
             };
         });
 
