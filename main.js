@@ -113,7 +113,7 @@ const createListItem = (participant, rank, scoreLabel) => {
                 ` : ''}
                 <div class="score-box">
                     <div class="score">${participant[scoreLabel]}</div>
-                    <div class="score-label">pts</div>
+                    <div class="score-label">total fish</div>
                 </div>
             </div>
         </div>
