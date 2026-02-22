@@ -286,10 +286,7 @@ const loadData = async () => {
 
         const userMap = {};
         usersData.forEach(user => {
-            // skip Straggly
-            if (user.name !== 'Straggly') {
-                userMap[user.uniqueId] = user.name;
-            }
+            userMap[user.uniqueId] = user.name;
         });
 
         // Process participants
