@@ -199,7 +199,7 @@ const loadData = async () => {
         const fallbackJSON = hash ? '/example-data/derby-result.json' : '/example-data/derby-status-result.json';
         const [derbyRes, usersRes] = await Promise.all([
             fetchWithFallback([derbyUrl, fallbackJSON]),
-            fetchWithFallback(['/users', 'example-data/users.json'])
+            fetchWithFallback(['/users', 'scripts/users.json'])
         ]);
 
         const rawDerbyData = await derbyRes.json();
@@ -286,7 +286,10 @@ const loadData = async () => {
 
         const userMap = {};
         usersData.forEach(user => {
-            userMap[user.id] = user.name;
+            // skip Straggly
+            if (user.name !== 'Straggly') {
+                userMap[user.uniqueId] = user.name;
+            }
         });
 
         // Process participants
