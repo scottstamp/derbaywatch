@@ -296,12 +296,18 @@ const loadData = async () => {
                 username: userMap[p.accountId],
                 publicTotal: Math.max(0, p.fishCaught - p.privateFishCaught) + goldenBonus,
                 privateTotal: p.privateFishCaught + goldenBonus,
-                goldenFish: p.goldenFishCaught || 0
+                goldenFish: p.goldenFishCaught || 0,
+                rawPrivate: p.privateFishCaught || 0
             };
         });
 
-        const publicSorted = [...processed].sort((a, b) => b.publicTotal - a.publicTotal);
-        const privateSorted = [...processed].sort((a, b) => b.privateTotal - a.privateTotal);
+        const publicSorted = [...processed]
+            .filter(p => p.publicTotal > 0)
+            .sort((a, b) => b.publicTotal - a.publicTotal);
+
+        const privateSorted = [...processed]
+            .filter(p => p.privateTotal > 0)
+            .sort((a, b) => b.privateTotal - a.privateTotal);
 
         document.getElementById('loading').style.display = 'none';
 
