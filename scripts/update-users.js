@@ -15,26 +15,27 @@ const fs = require('fs');
     }
 
     var users = JSON.parse(fs.readFileSync('users.json'));
-    var derbies = [];
+    var derbies = []; //['fd-hhous-d8d5676a95af31f5cf95e369b120b0a0'];
 
-    const derbyListing = await fetch('https://bobba.me/includes/ajax/derby/api_recent?page=2&pageSize=50');
+    const derbyListing = await fetch('https://bobba.me/includes/ajax/derby/api_recent?page=1&pageSize=10');
     const derbyListingJson = await derbyListing.json();
 
     for (const derby of derbyListingJson.rows) {
-        // console.log(derby.derby_id);
         derbies.push(derby.derby_id);
     }
 
-    for (const derby of derbies) {
+    for (const derby of derbies.slice(0, 3)) {
         const derbyData = await getDerbyData(derby);
+        console.log(derby);
         for (const participant of derbyData.metadata.participantAccountIds) {
             if (users.find(user => user.uniqueId === participant)) continue;
             const userData = await getUserData(participant);
             users.push(userData);
 
-            console.log(userData);
+            console.log(userData.name);
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
+        await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     fs.writeFileSync('users.json', JSON.stringify(users));
