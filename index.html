@@ -411,14 +411,23 @@
         }
 
         .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10;
             text-align: center;
             padding: 4rem 2rem;
             color: var(--accent-primary);
             font-size: 1.2rem;
             font-weight: 600;
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 1rem;
         }
 
@@ -494,7 +503,7 @@
             <div class="tab" data-target="private-list">Private Catches</div>
         </div>
 
-        <div id="loading" class="loading">
+        <div id="loading" class="loading" style="display: flex;">
             <div class="spinner"></div>
             <div>Syncing live data...</div>
         </div>
