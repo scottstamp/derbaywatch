@@ -295,7 +295,7 @@ const loadData = async () => {
                 accountId: p.accountId,
                 username: userMap[p.accountId],
                 publicTotal: Math.max(0, p.fishCaught - p.privateFishCaught) + goldenBonus,
-                privateTotal: p.privateFishCaught + goldenBonus,
+                privateTotal: p.privateFishCaught || 0,
                 goldenFish: p.goldenFishCaught || 0,
                 rawPrivate: p.privateFishCaught || 0
             };
