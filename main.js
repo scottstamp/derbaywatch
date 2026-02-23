@@ -93,14 +93,21 @@ const createListItem = (participant, rank, scoreLabel) => {
     const nameClass = hasUsername ? 'username' : 'username unresolved';
     const rankClass = rank <= 3 ? `rank-${rank}` : '';
 
+    const avatarHtml = hasUsername
+        ? `<img class="player-avatar" src="https://img.franklyorigins.net/habbo-imaging/avatarimage?habbo=${encodeURIComponent(participant.username)}&hotel=COM&size=a&crr=11&cb=3&rt=0" alt="${displayName}" loading="lazy">`
+        : `<div class="player-avatar placeholder"></div>`;
+
     return `
         <div class="list-item ${rankClass}">
             <div class="rank">
                 ${getMedalSVG(rank)}
             </div>
             <div class="player-info">
-                <div class="${nameClass}">${displayName}</div>
-                ${!hasUsername ? `<div class="account-id">${participant.accountId}</div>` : ''}
+                ${avatarHtml}
+                <div class="player-details">
+                    <div class="${nameClass}">${displayName}</div>
+                    ${!hasUsername ? `<div class="account-id">${participant.accountId}</div>` : ''}
+                </div>
             </div>
             <div class="score-wrap">
                 ${participant.goldenFish > 0 ? `
