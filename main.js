@@ -180,10 +180,10 @@ const loadData = async () => {
 
         let derbyUrl = '';
         if (hash) {
-            derbyUrl = `https://habbo-api-proxy.scott-000.workers.dev/api/public/minigame/derby/v1/${hash}`;
+            derbyUrl = `https://origins.habbo.com/api/public/minigame/derby/v1/${hash}`;
             if (inputEl) inputEl.value = hash;
         } else {
-            derbyUrl = 'https://habbo-api-proxy.scott-000.workers.dev/api/public/minigame/derby/v1/status';
+            derbyUrl = 'https://origins.habbo.com/api/public/minigame/derby/v1/status';
             if (inputEl) inputEl.value = '';
         }
 
